@@ -3,9 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do App</title>
+    <title>Taskflow | Todo App</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="index.js" defer></script>
 </head>
 <body>
-    <h1>MY TODO APP.</h1>
+
+    <header class="app-header">
+        <div class="logo">
+            <h1>Taskflow</h1>
+        </div>
+    </header>
+
+    <div class="app-layout">
+
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Projects</h2>
+                <button id="add-project-btn" class="btn btn-secondary">+ New</button>
+            </div>
+            
+            <nav class="project-list" id="project-list">
+                <!-- Project buttons dynamically rendered here -->
+            </nav>
+        </div>
+
+        <main class="main-content">
+            
+            <div class="project-header">
+                <h2 id="current-project-title">Default Project</h2>
+                <button id="add-todo-btn" class="btn btn-primary">+ Add Task</button>
+            </div>
+
+            <section class="todo-grid" id="todo-container">
+                <!-- Todo cards dynamically rendered here -->
+            </section>
+
+        </main>
+    </div>
+
+    <dialog id="todo-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Create New Task</h2>
+            <form class="form" id="todo-form">
+                <div class="inputGroup">
+                    <label for="name">Task Name</label>
+                    <input type="text" name="Project-name" id="name" required minlength="1" maxlength="30" placeholder="e.g., OS Assignment">
+                </div>
+
+                <div class="inputGroup">
+                    <label for="description">Task Description</label>
+                    <textarea name="Project-description" id="description" required minlength="1" maxlength="100" placeholder="Brief overview of the task..." rows="3"></textarea>
+                </div>
+
+                <div class="inputRow">
+                    <div class="inputGroup">
+                        <label for="date">Due Date</label>
+                        <input type="date" name="due-date" id="date" required>
+                    </div>
+
+                    <div class="inputGroup">
+                        <label for="priority">Priority Level</label>
+                        <select id="priority" name="priority">
+                            <option value="high">High</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="inputGroup">
+                    <label for="notes">Notes</label>
+                    <textarea name="notes" id="notes" maxlength="200" placeholder="Additional details or links..." rows="3"></textarea>
+                </div>
+
+                <div class="buttonGroup">
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary submit-btn">Submit Task</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="project-modal" class="modal-project">
+        <div class="projectModal">
+            <h2 class="projectModal-title">Create New Project</h2>
+            <form id="project-form">
+                <div class="input-group">
+                    <label for="name">Project Name</label>
+                    <input type="text" name="Project-name" id="name" required minlength="1" maxlength="30" placeholder="e.g., School Project">
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary cancel-button">Cancel</button>
+                    <button type="submit" class="btn btn-primary submit-button">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
 </body>
 </html>
