@@ -9,7 +9,7 @@ export class manager{
 
     init(){
         const defaultProject = this.createProject("Default");
-        this.setActiveProject(defaultProject.id || defaultProject.name);
+        this.setActiveProject(defaultProject.name);
     }
 
     createProject(name) {
@@ -40,7 +40,7 @@ export class manager{
     deleteProject (identifier){
         const projectToDelete = this.projects.find(
             (p) => p.id === identifier || p.name.toLowerCase() === identifier.toLowerCase());
-        if (!projectToDelete || projectToDelete.name === "Default") {
+        if (!projectToDelete || projectToDelete.name.toLowerCase() === "default") {
             return false; 
         }
 

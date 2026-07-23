@@ -25,6 +25,7 @@
             
             <nav class="project-list" id="project-list">
                 <!-- Project buttons dynamically rendered here -->
+                 
             </nav>
         </div>
 
@@ -37,18 +38,35 @@
 
             <section class="todo-grid" id="todo-container">
                 <!-- Todo cards dynamically rendered here -->
+                
             </section>
 
         </main>
     </div>
+
+    <dialog id="subtask-modal">
+        <div id="subtask-modal-content">
+            <h2 class="modal-title">Add a Sub Task</h2>
+        </div>
+        <form id="subtask-form">
+                <div class="input-group">
+                    <label for="subtask-name">Project Name</label>
+                    <input type="text" name="Project-name" id="subtask-name" required minlength="1" maxlength="30" placeholder="e.g., School Project">
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary subtask-cancel-button">Cancel</button>
+                    <button type="submit" class="btn btn-primary subtask-submit-button">Add Subtask</button>
+                </div>
+        </form>
+    </dialog>
 
     <dialog id="todo-modal" class="modal">
         <div class="modal-content">
             <h2 class="modal-title">Create New Task</h2>
             <form class="form" id="todo-form">
                 <div class="inputGroup">
-                    <label for="name">Task Name</label>
-                    <input type="text" name="Project-name" id="name" required minlength="1" maxlength="30" placeholder="e.g., OS Assignment">
+                    <label for="todo-name-id">Task Name</label>
+                    <input type="text" name="Project-name" id="todo-name-id" required minlength="1" maxlength="30" placeholder="e.g., OS Assignment">
                 </div>
 
                 <div class="inputGroup">
@@ -90,8 +108,8 @@
             <h2 class="projectModal-title">Create New Project</h2>
             <form id="project-form">
                 <div class="input-group">
-                    <label for="name">Project Name</label>
-                    <input type="text" name="Project-name" id="name" required minlength="1" maxlength="30" placeholder="e.g., School Project">
+                    <label for="project-name-id">Project Name</label>
+                    <input type="text" name="Project-name" id="project-name-id" required minlength="1" maxlength="30" placeholder="e.g., School Project">
                 </div>
                 <div class="button-group">
                     <button type="button" class="btn btn-secondary cancel-button">Cancel</button>
