@@ -171,12 +171,34 @@ body {
     padding-bottom: 0.75rem;
 }
 
+.single-task{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.button-to-edit{
+    margin-left: auto;
+}
+
+.edit-btn{
+    padding: 8px;
+    margin-bottom: 10px;
+    background-color: var(--accent-blue);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 8px;
+}
+
+.edit-btn:hover{
+    background-color: var(--accent-blue-hover);
+}
+
 .check-group {
     padding: 0.6rem 0.4rem;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--surface-border);
 }
 
 .task-checkbox {
@@ -456,7 +478,6 @@ body {
     padding-bottom: 0.75rem;
 }
 
-/* Checklist Display inside Task Details Panel */
 .subtask-item {
     display: flex;
     align-items: center;
@@ -471,4 +492,32 @@ body {
     width: 15px;
     height: 15px;
     cursor: pointer;
+}
+
+.taskName-btn.checked{
+    text-decoration: line-through;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+.subtask-title.checked {
+    text-decoration: line-through;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.project-header-btns{
+    display: flex;
+    gap: 20px;
+}
+
+#delete-project-btn{
+    background-color: transparent;
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+
+#delete-project-btn:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
 }

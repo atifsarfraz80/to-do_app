@@ -13,6 +13,10 @@ export function todoUI(app) {
             existingDetails.remove();
         }
 
+        if (!task.checklist) {
+            task.checklist = [];
+        }
+
         const container = document.createElement("div");
         container.classList.add("task-details-panel");
 
@@ -46,9 +50,31 @@ export function todoUI(app) {
         `;
 
         const myPriority = container.querySelector(".prior");
-        if(task.priority.toLowerCase() === "high") myPriority.classList.add("red");
-        if(task.priority.toLowerCase() === "moderate") myPriority.classList.add("grey");
-        if(task.priority.toLowerCase() === "low") myPriority.classList.add("yellow");
+        const priorityLower = task.priority.toLowerCase();
+        if (priorityLower === "high") myPriority.classList.add("red");
+        if (priorityLower === "moderate") myPriority.classList.add("grey");
+        if (priorityLower === "low") myPriority.classList.add("yellow");
+
+        const subtasksList = container.querySelector("#subtasks-list");
+        task.checklist.forEach((subtask) => {
+            const content = document.createElement("div");
+            content.classList.add("subtask-div");
+            
+            content.innerHTML = `
+                <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? "checked" : ""}>
+                <span class="subtask-title ${subtask.completed ? "checked" : ""}">${subtask.title}</span>
+            `;
+
+            const checkbox = content.querySelector(".subtask-checkbox");
+            const title = content.querySelector(".subtask-title");
+
+            checkbox.addEventListener("change", () => {
+                subtask.completed = checkbox.checked;
+                title.classList.toggle("checked", subtask.completed);
+            });
+
+            subtasksList.appendChild(content);
+        });
 
         section.appendChild(container);
 
@@ -58,31 +84,41 @@ export function todoUI(app) {
         const subtaskCancelBtn = subtaskModal.querySelector(".subtask-cancel-button");
 
         addSubtaskBtn.addEventListener("click", () => {
-        subtaskModal.showModal();
-    });
+            subtaskModal.showModal();
+        });
 
+        subtaskForm.onsubmit = (e) => {
+            e.preventDefault();
+            const subtaskInput = document.querySelector("#subtask-name");
+            const subtaskName = subtaskInput.value.trim();
 
-    subtaskForm.onsubmit = (e) => {
-        e.preventDefault();
+            if (subtaskName) {
+                task.checklist.push({ title: subtaskName, completed: false });
+                renderTaskDetails(task); 
+            }
 
-        const subtaskInput = document.querySelector("#subtask-name");
-        const subtaskName = subtaskInput.value.trim();
+            subtaskForm.reset();
+            subtaskModal.close();
+        };
 
-        if (subtaskName) {
-            task.checklist.push({ title: subtaskName, completed: false });
-            renderTaskDetails(task);
+        subtaskCancelBtn.onclick = () => {
+            subtaskForm.reset();
+            subtaskModal.close();
+        };
+
+        if (task.iscomplete) {
+            if (addSubtaskBtn) {
+                addSubtaskBtn.disabled = true;
+                addSubtaskBtn.style.opacity = "0.5";
+                addSubtaskBtn.style.cursor = "not-allowed";
+            }
+
+            const subtaskCheckboxes = container.querySelectorAll(".subtask-checkbox");
+            subtaskCheckboxes.forEach((cb) => {
+                cb.disabled = true;
+            });
         }
-
-        subtaskForm.reset();
-        subtaskModal.close();
     };
-
-    // 4. Handle Cancel Button
-    subtaskCancelBtn.onclick = () => {
-        subtaskForm.reset();
-        subtaskModal.close();
-    };
-};
 
     const renderTaskList = () => {
         const section = document.querySelector("#todo-container");
@@ -104,34 +140,41 @@ export function todoUI(app) {
             div.classList.add("task-item");
 
             div.innerHTML = `
-                <div class="check-group">
-                    <input type="checkbox" class="task-checkbox" ${task.iscomplete ? "checked" : ""}>
-                    <button class="taskName-btn">${task.name}</button>
+                <div class = "single-task">
+                    <div class="check-group">
+                        <input type="checkbox" class="task-checkbox" ${task.iscomplete ? "checked" : ""}>
+                        <button class="taskName-btn ${task.iscomplete ? "checked" : ""}">${task.name}</button>
+                    </div>
+                    <div class="button-to-edit">
+                        <button class="edit-btn ">Edit Task</button>
+                    </div>
                 </div>
             `;
 
-            const btn = div.querySelector(".taskName-btn");
-            btn.addEventListener("click", () => {
-                renderTaskDetails(task);
+            const taskcheckbox = div.querySelector(".task-checkbox");
+            const taskNameButton = div.querySelector(".taskName-btn");
+
+            taskcheckbox.addEventListener("change", () => {
+                task.toggleCompletion();
+                taskNameButton.classList.toggle("checked", task.iscomplete);
+                renderTaskDetails(task); 
             });
 
-            const checkbox = div.querySelector(".task-checkbox");
-            checkbox.addEventListener("change", () => {
-                task.toggleCompletion();
+            taskNameButton.addEventListener("click", () => {
+                renderTaskDetails(task);
             });
 
             taskDiv.appendChild(div);
 
-
-            if (index === 0) {
-                renderTaskDetails(task);
-            }
         });
 
         section.appendChild(taskDiv);
+
+        if (project.toDos.length > 0) {
+        renderTaskDetails(project.toDos[0]);
+        }
     };
 
-    
     if (!todo_form.dataset.listenerAttached) {
         todo_form.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -147,7 +190,7 @@ export function todoUI(app) {
                 const newTodo = new Todo(name, description, dueDate, priority, notes);
                 activeProject.addTodo(newTodo);
 
-                renderTaskList(); 
+                renderTaskList();
                 renderTaskDetails(newTodo);
             }
 

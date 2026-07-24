@@ -4,14 +4,21 @@ export function projectUI(app){
     const projectDialog = document.querySelector(".modal-project");
     const projectNameInput = document.querySelector("#project-name-input");
 
+    
+
     const renderMainTitle = () => {
     const titleElement = document.querySelector("#current-project-title");
     if (titleElement && app.getActiveProject()) {
         titleElement.textContent = app.getActiveProject().name;
     }
+    const deleteBtn = document.querySelector("#delete-project-btn");
+    if(app.getActiveProject().name.toLowerCase() === "default") deleteBtn.style.display="none";
+    else deleteBtn.style.display="inline-block";
+
 };
 
     const renderSidebar = ()=>{
+        
         const nav = document.querySelector(".project-list");
         nav.innerHTML = "";
         app.getAllProjects().forEach((project) => {
@@ -49,6 +56,7 @@ export function projectUI(app){
             app.createProject(name);
             app.setActiveProject(name);
             renderSidebar();
+            todoUI(app);
         }
         project_form.reset();
         projectDialog.close();

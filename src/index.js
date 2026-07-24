@@ -39,3 +39,26 @@ cancelButton.addEventListener("click", () => {
     projectDialog.close();
     projectForm.reset();
 });
+
+const deleteBtn = document.querySelector("#delete-project-btn");
+
+deleteBtn.addEventListener("click" , (e)=>{
+    const projectToRemove = app.getActiveProject();
+
+    if (!projectToRemove || projectToRemove.name.toLowerCase() === "default") return;
+    const confirmDelete = confirm(`Are you sure you want to delete "${projectToRemove.name}"?`);
+    
+    if (confirmDelete) {
+        app.deleteProject(projectToRemove.name); 
+        
+        projectUI(app);
+        todoUI(app);
+    }
+});
+
+const TaskeditBtn = document.querySelector(".edit-btn");
+
+TaskeditBtn.addEventListener("click" , ()=>{
+
+})
+
